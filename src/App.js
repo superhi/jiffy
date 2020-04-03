@@ -18,7 +18,7 @@ const Header = ({clearSearch, hasResults}) => (
     {/* if we have results, show the clear button, otherwise show the title */}
     {hasResults ? (
       <button onClick={clearSearch}>
-        <img src={clearButton} />
+        <img src={clearButton} alt="Clear Search" />
       </button>
     ) : (
       <h1 className="title">Jiffy</h1>
@@ -30,7 +30,7 @@ const UserHint = ({loading, hintText}) => (
   <div className="user-hint">
     {/* here we check whether we have a loading state and render out
     either our spinner or hintText based on that, using a ternary operator (if/else) */}
-    {loading ? <img className="block mx-auto" src={loader} /> : hintText}
+    {loading ? <img className="block mx-auto" src={loader} alt="Loading" /> : hintText}
   </div>
 );
 
@@ -62,9 +62,7 @@ class App extends Component {
     try {
       // here we use the await keyword to wait for our response to come back
       const response = await fetch(
-        `https://api.giphy.com/v1/gifs/search?api_key=o7IyuSKkLiR728rSCOE3Pov4refIv10F&q=${
-          searchTerm
-        }&limit=25&offset=0&rating=PG&lang=en`
+        `https://api.giphy.com/v1/gifs/search?api_key=o7IyuSKkLiR728rSCOE3Pov4refIv10F&q=${searchTerm}&limit=25&offset=0&rating=PG&lang=en`
       );
       // here we convert our raw reponse into json data
       // const {data} gets the .data part of our response
@@ -75,7 +73,7 @@ class App extends Component {
       // code here and handle it in the catch area
 
       if (!data.length) {
-        throw `Nothing found for ${searchTerm}`;
+        throw new Error(`Nothing found for ${searchTerm}`);
       }
 
       // here we grab a random result from our images
@@ -161,9 +159,9 @@ class App extends Component {
           {/* here we loop over our array of gif images from our state
           and we create multiple videos from it */}
 
-          {this.state.gifs.map(gif => (
+          {gifs.map(gif => (
             // we spread out all of our properties onto our Gif component
-            <Gif {...gif} />
+            <Gif {...gif} key={gif.id} />
           ))}
 
           <input
