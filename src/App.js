@@ -159,9 +159,9 @@ class App extends Component {
           {/* here we loop over our array of gif images from our state
           and we create multiple videos from it */}
 
-          {gifs.map((gif, index) => (
+          {gifs.map(gif => (
             // we spread out all of our properties onto our Gif component
-            <Gif {...gif} key={index} />
+            <Gif {...gif} key={gif.id} />
           ))}
 
           <input
